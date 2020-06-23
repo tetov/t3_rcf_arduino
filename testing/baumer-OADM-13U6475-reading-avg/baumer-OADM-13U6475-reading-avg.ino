@@ -1,4 +1,4 @@
-/--------------------------------------------------------------
+/*--------------------------------------------------------------
   Program:      volt_measure
 
   Description:  Reads value on analog input A2 and calculates
@@ -14,14 +14,16 @@
  
   Author:       W.A. Smith, http://startingelectronics.org
   https://startingelectronics.org/articles/arduino/measuring-voltage-with-arduino/
---------------------------------------------------------------*/
+--------------------------------------------------------------
+*/
 
 // number of analog samples to take per reading
 #define NUM_SAMPLES 10
 
 int sum = 0;                    // sum of samples taken
 unsigned char sample_count = 0; // current sample number
-float voltage = 0.0;            // calculated voltage
+float average = 0.0;
+float distance = 0.0;
 
 void setup()
 {
@@ -39,13 +41,13 @@ void loop()
     // calculate the voltage
     // use 5.0 for a 5.0V ADC reference voltage
     // 5.015V is the calibrated reference voltage
-    voltage = 5.0 * ((float)sum / (float)NUM_SAMPLES) / 1023;
-    // send voltage for display on Serial Monitor
-    // voltage multiplied by 11 when using voltage divider that
-    // divides by 11. 11.132 is the calibrated voltage divide
-    // value
-    Serial.print(voltage * 11.132);
-    Serial.println (" V");
+    average = (float)sum / (float)NUM_SAMPLES;
+    distance = map(average, 0, 1023, 50, 350);
+   
+    Serial.print("Current ");
+    Serial.print(average);
+    Serial.print(", Distance ");
+    Serial.println(distance);
     sample_count = 0;
     sum = 0;
 }

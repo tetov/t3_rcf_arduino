@@ -15,14 +15,14 @@ void setup()
     Serial.println("Failed to detect and initialize sensor!");
     while (1);
   }
-
-  sensor.setDistanceMode(VL53L1X::Long);
-  sensor.setMeasurementTimingBudget(15000);
+  //sensor.setDistanceMode(VL53L1X::Long);
+  sensor.setDistanceMode(VL53L1X::Short);
+  sensor.setMeasurementTimingBudget(33000);
   sensor.startContinuous(15);
-  Serial.println("new program");
+  Serial.println("New program");
 }
 
 void loop()
 {
-  Serial.println(String(millis())+","+String(sensor.read()));
+  Serial.println(String(sensor.read() / 10.0));
 }
